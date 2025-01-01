@@ -1,4 +1,70 @@
 ___
+# 速记
+
+___
+## 记号
+**wgx体系**
+> 写向量一定要打箭头
+> $\left| \frac{\partial (x,y)}{\partial (u,v)} \right|$ 表示行列式 $\left\| \frac{\partial (x,y)}{\partial (u,v)} \right\|$ 表示其绝对值
+
+**场论**
+- 梯度场：$\nabla f = \text{grad} f = \left(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z}\right)$
+- 散度场：$\nabla\cdot \vec{F} = \text{div} \vec{F} = \frac{\partial P}{\partial x}+\frac{\partial Q}{\partial y}+\frac{\partial R}{\partial z}$
+- 旋度场：$\nabla\times \vec{F} = \text{rot} \vec{F} = \left(\frac{\partial R}{\partial y}-\frac{\partial Q}{\partial z}\right)\vec{i}+\left(\frac{\partial P}{\partial z}-\frac{\partial R}{\partial x}\right)\vec{j}+\left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)\vec{k} = \left|\begin{matrix}\vec{i} & \vec{j} & \vec{k}\\\frac{\partial}{\partial x}& \frac{\partial}{\partial y}&\frac{\partial}{\partial z}\\ P&Q&R\end{matrix}\right|$
+- 拉普拉斯算子：$\Delta f = \nabla\cdot \nabla f = \nabla^2 f = \frac{\partial^2 f}{\partial x^2}+\frac{\partial^2 f}{\partial y^2}+\frac{\partial^2 f}{\partial z^2}$
+
+## 曲线曲面积分的联系
+| 维度  | 散度 (Gauss公式)                                         | 旋度 ( Stokes公式)  (二维情形下又称 Green公式)                              |
+|-------|---------------------------------------------------------|-----------------------------------------------------------|
+| 二维  | 平面闭区域 $\sim$ 边界 \(\iint_{\Sigma} (\mathrm{div}\,\bm F) \mathrm d\sigma_{xy} = \oint_{\delta \Sigma} \bm F \cdot \bm n \mathrm ds\) | 平面闭区域 $\sim$ 边界 \(\iint_{\Sigma} (\mathrm{rot}\,\bm F) \mathrm  d\sigma_{xy} = \oint_{\delta \Sigma} \bm F \cdot \bm\tau \mathrm ds\) |
+| 三维  | 空间闭区域 $\sim$ 边界 \(\iiint_\Omega (\mathrm{div}\,\bm F) \mathrm dv = \oiint_{\delta \Omega} \bm F \cdot \bm n \mathrm dS\)   | 空间双侧曲面 $\sim$ 边界\(\iint_\Sigma (\mathrm{rot}\,\bm F) \cdot \bm n \mathrm dS = \oint_{\delta \Sigma} \bm F \cdot \bm\tau \mathrm ds\) |
+
+- $\bm n\mathrm ds = (\mathrm dy,-\mathrm dx)$
+- $\bm\tau \mathrm ds = (\mathrm dx,\mathrm dy)$ or $(\mathrm dx, \mathrm dy, \mathrm dz)$
+- $\bm n\mathrm dS = (\mathrm dy\mathrm dz,\mathrm dz\mathrm dx,\mathrm dx\mathrm dy) $
+- $\mathrm{rot}\,\bm F \cdot \mathrm d\sigma_{xy} = \begin{bmatrix}\frac{\partial}{\partial x}& \frac{\partial}{\partial y}\\ P&Q\end{bmatrix} $
+- $\mathrm{rot}\,\bm F \cdot \bm n\mathrm dS = \begin{bmatrix}\mathrm dy\mathrm dz&\mathrm dz\mathrm dx&\mathrm dx\mathrm dy\\\frac{\partial}{\partial z}& \frac{\partial}{\partial y}&\frac{\partial}{\partial z}\\ P&Q&R\end{bmatrix} $ 
+> 两个公式在二维实质上等价
+
+## 反例
+**二重积分与累次积分的存在性问题**
+> (1) 二重积分存在并不保证累次积分存在, 例如:
+> $$D = [0,1]^2,f = \begin{cases}\frac{1}{k},\quad &x=\frac{1}{k},y\in \mathbb Q,k\in \mathbb N, \\0,&\text{o.w.}\end{cases}$$
+> 固定 $x$ 后是狄利克雷函数, 不可积, 但是二重积分存在. 
+> (2) 有累次积分存在, 可能二元积分不存在, 例如:
+> $$D=[-1,1]^2,f = \begin{cases}0,\quad &x\in \mathbb Q, \\y,&\text{o.w.}\end{cases}$$
+> (3) 累次积分存在且相等, 可能二元积分不存在, 例如:
+> $$D=[0,1]^2,f = \begin{cases}1,\quad &x,y\text{都是既约分数且分母相等}, \\0,&\text{o.w.}\end{cases}$$
+
+**广义重积分的敛散性**
+> 两累次积分均发散但二重积分收敛的例子:
+> $$D= (0,1)^2,f(x,y)=\begin{cases}2^n, \quad & x=\frac{2m-1}{2^n}<1,0<y\leq \frac{1}{2^n},n\in \mathbb N,\\0 &o.w.\end{cases}$$
+> $g(x,y)=f(x,y)+f(y,x)$
+> 
+> 在不加绝对值时, 存在累次积分收敛而二元广义积分发散的例子:
+> $$D= (0,1)^2,f(x,y)=\begin{cases}-\frac{1}{y^2}, \quad & 0<x<y<1,\\\frac{1}{x^2}, &0<y<x<1\\0 &x=y\end{cases}$$
+
+**单连通区域积分与路径无关的充要条件**
+> 全微分$\mathrm du = P\mathrm dx+Q\mathrm dy, \forall (x,y)\in D$ 存在 $\Rightarrow \frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x}, \forall (x,y)$, 反之不然, 例如不含原点的环形区域上的 $\frac{x\mathrm dy-y\mathrm dx}{x^2+y^2}$, 这是因为 $\arctan\frac{y}{x}$ 不能在整个环形区域上可微.
+
+## 数值相关
+**常用导数**
+- $(\arcsin x)' = \frac{1}{\sqrt{1-x^2}}$
+- $(\arctan x)' = \frac{1}{1+x^2}$
+- $(\text{arctanh}\, x)' = \frac{1}{1-x^2}$
+- $(\text{arcsinh}\, x)' = \frac{1}{\sqrt{x^2+1}}$
+- $(\text{arccosh}\, x)' = \frac{1}{\sqrt{x^2-1}}$
+
+**$\Gamma$ 函数与 $\Beta$ 函数**
+| 函数     | \(\Gamma(x)\)                                                                                       | \(\Beta(x, y)\)                                                                                                 |
+|----------|-----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| 定义     | \(\Gamma(x) = \int_0^{+\infty} t^{x-1} \mathrm{e}^{-t} \mathrm{d}t, \, x > 0\)                        | \(\Beta(x, y) = \int_0^1 t^{x-1} (1-t)^{y-1} \mathrm{d}t, \, x > 0, y > 0\)                                    |
+| 性质 1   | \(\Gamma(x+1) = x\Gamma(x)\)                                                                         |\(\Beta(x, y) = 2 \int_0^{\frac{\pi}{2}} (\sin \theta)^{2x-1} (\cos \theta)^{2y-1} \mathrm{d}\theta\) (\(t = \sin^2\theta\))   |
+| 性质 2   | \(\Gamma(x) = 2 \int_0^{+\infty} s^{2x-1} \mathrm{e}^{-s^2} \mathrm{d}s\)  (\(t = s^2\))             | \(\Beta(x, y) = \int_0^{+\infty} \frac{s^{x-1}}{(1+s)^{x+y}} \mathrm{d}s\) (\(t = \frac{s}{1+s}\))       |
+| 性质 3   | \(\Gamma(x) \in C^{\infty}(0, +\infty)\)                                                             | \(\Beta(x, y) \in C^{\infty}((0, +\infty)\times (0, +\infty))\) |
+| 性质 4   | \(\Gamma(x)\) 和 \(\ln \Gamma(x)\) 在 \((0, +\infty)\) 上严格凸                                         |            |
+| 关系     | \(\Beta(x, y) = \frac{\Gamma(x)\Gamma(y)}{\Gamma(x+y)}\)  (累次积分转化为重积分后极坐标变换)                                            | \(\Gamma(x)\Gamma(1-x) = \Beta(x, 1-x) = \frac{\pi}{\sin \pi x}\)                                             |
+___
 
 # 第十五章 重积分
 ___
@@ -176,7 +242,7 @@ $$\int_{\widehat{AB}}\bm F\cdot \mathrm d\bm s = \int_a^b\bm F(x(t),y(t),z(t))\c
 
 - theorem : $\Gamma$ 是 $D$ 内简单闭曲线, 则 $\forall \epsilon>0$, $\exists$ 节点在 $\Gamma$ 上的闭折线 $ \Lambda$, $D_\Gamma,D_\Lambda$ 分别为曲线围成的有界闭区域. 使得.
 $$\left|\oint_\Lambda F\cdot \mathrm ds-\oint_\Gamma F\cdot \mathrm ds\right|<\epsilon, \left||D_\Lambda|-|D_\Gamma|\right|<\epsilon$$ 
-> 规定 $\delta D$ 的微元的正向是区域在左侧## 各类积分之间的联系
+> 规定 $\delta D$ 的微元的正向是区域在左侧## 两类线积分之间的联系
 $\S$ 16.3
 ### Green 公式
 $\S$ 16.3.1
@@ -195,7 +261,7 @@ $$\oint_{\partial D}(P,Q)\cdot \mathrm ds = \oint_{\partial D}(P,Q)\cdot (\mathr
 <img src = "images/1125-2.jpg" width  = 300>
 
 - theorem : (二维 Stokes 公式) $P,Q,\frac{\partial Q}{\partial y},\frac{\partial P}{\partial x}\in C(D)$. 则有:
-$$\oint_{D} (\frac{\partial Q}{\partial y}+\frac{\partial P}{\partial x})\mathrm d\sigma = \oint_{\partial D}\{P,Q\}\cdot \boldsymbol n\;\mathrm ds = \oint_{\partial D}(P\cos(\boldsymbol n,x)+Q\cos (\boldsymbol n,y))\mathrm ds$$
+$$\oint_{\partial D}(P\cos(\boldsymbol n,x)+Q\cos (\boldsymbol n,y))\mathrm ds = \oint_{\partial D}\{P,Q\}\cdot \boldsymbol n\;\mathrm ds = \iint_{D} (\frac{\partial Q}{\partial y}+\frac{\partial P}{\partial x})\mathrm d\sigma$$
 其中 $\boldsymbol n$ 表示外法向量, 两个余弦内角是其分别与 $x,y$ 轴正向的夹角.
 > $\boldsymbol n\cdot \mathrm ds = (\mathrm dy,-\mathrm dx)$, 所以两个公式其实就是互换 $P,Q$
 > Green 公式描述 $P,Q$ 在切向量上的投影, 二维 Stokes 公式描述 $P,Q$ 在法向量上的投影 
@@ -228,6 +294,8 @@ $\S$ 16.3.2
 > 积分与路径无关的充要条件是, 在整个区域上, 被积表达式是一个全微分.
 - theorem : 设 $P,Q,\frac{\partial P}{\partial y}, \frac{\partial Q}{\partial x}$, 在单连通区域上连续, 则 "...与路径无关" $\Leftrightarrow$ 
 $$\frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x}, \forall (x,y)$$
+> 这个条件的充分性由 Green 公式和单联通区域的定义保证.
+> 全微分$\mathrm du = P\mathrm dx+Q\mathrm dy, \forall (x,y)\in D$ 存在 $\Rightarrow \frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x}, \forall (x,y)$, 反之不然, 例如不含原点的环形区域上的 $\frac{x\mathrm dy-y\mathrm dx}{x^2+y^2}$, 这是因为 $\arctan\frac{y}{x}$ 不能在整个环形区域上可微.
 > 关于被积表达式是否是全微分, 有三种方法确定, 直接积, 积单变量, 直接观察.
 
 ## 曲面积分
@@ -238,21 +306,32 @@ $\S$ 16.4.1
 - theorem : 若曲面由 $z=f(x,y)$ 给定, 投影区域为 $D_{xy}$, 则
 $$\mathrm dS=\sqrt{1+f_x'^2+f_y'^2}\mathrm d\sigma_{xy}$$
 - def : (参数式曲面) $(x(u,v),y(u,v),z(u,v))$, 均$\in C^1$, 且 $A=\left|\frac{\partial (y,z)}{\partial (u,v)}\right|, B=\cdots$ 不同时为 $0$.
-  - theorem : $\tau_1 = (\frac{\partial z}{\partial u},\frac{\partial y}{\partial u},\frac{\partial z}{\partial u})$, $\tau_2 = \cdots$, $E=|\tau_1|^2$, $G=|\tau_2|^2$, $F=|\tau_1\cdot\tau_2|$
+  - theorem : $\tau_1 = (\frac{\partial x}{\partial u},\frac{\partial y}{\partial u},\frac{\partial z}{\partial u})$, $\tau_2 = \cdots$, $E=|\tau_1|^2$, $G=|\tau_2|^2$, $F=|\tau_1\cdot\tau_2|$
 $$\mathrm dS = \sqrt{A^2+B^2+C^2} \mathrm d\sigma_{uv} = \sqrt{EG-F^2} d\sigma_{uv}$$### I型曲面积分
 $\S$ 16.4.2
-
-$$\iint_\Sigma f(x,y,z)\mathrm dS=\iint_{D_{xy}}f(x,y,z(x,y))\sqrt{1+\left(\frac{\partial z}{\partial y}\right)^2+\left(\frac{\partial z}{\partial x}\right)^2}\mathrm d\sigma_{xy}$$
-
-
-- def : 设 $\Sigma\subset \mathbb R^3$ 是分片光滑可求面积的双侧曲面, 若它有边界, 则它的边界是由有限条光滑曲面组成. 给定 $\Sigma$ 一侧, $\Sigma$ 上每点 $(x,y,z)$ 处的该侧的单位法向
-
-> 如果把 $\boldsymbol n\mathrm dS$ 看作向量, 记为 $\mathrm d\boldsymbol S$, 则 $\mathrm d\boldsymbol S = (\cos\alpha\mathrm dS,\cos\beta\mathrm dS,\cos\gamma\mathrm dS)$
-
-$$\begin{align*}\iint_\Sigma F(x,y,z)\boldsymbol n\mathrm dS &= \iint_\Sigma F(x,y,z)\mathrm d\boldsymbol S \\&=\iint_\Sigma P(x,y,z)\mathrm dy\mathrm dz+Q(x,y,z)\mathrm dz\mathrm dx+R(x,y,z)\mathrm dx\mathrm dy\end{align*}$$
+- def : 设 $\Sigma$ 是分片光滑曲面, $f(x,y,z)$ 在 $\Sigma$ 上有定义. 任意分割任意取点法求和的极限存在唯一, 则记为 $\iint_\Sigma f(x,y,z)\mathrm dS$ , 为**I型曲面积分**. 
+$$\begin{align*}\iint_\Sigma f(x,y,z)\mathrm dS&=\iint_{D_{xy}}f(x,y,z(x,y))\sqrt{1+\left(\frac{\partial z}{\partial y}\right)^2+\left(\frac{\partial z}{\partial x}\right)^2}\mathrm d\sigma_{xy}\\&=\iint_{D_{uv}}f(x(u,v),y(u,v),z(u,v))\sqrt{EG-F^2}\mathrm d\sigma_{uv}\end{align*}$$
 
 ### II型曲面积分
 $\S$ 16.4.3
+- def : 光滑曲面 $\Sigma$ (连续可微函数表达的曲面) 上任取一点 $M_0$. 选定在 $M_0$ 点的 $\Sigma$ 的一个法向量朝向, 当 $M_0$ 点连同法向量沿 $\Sigma$ 上任意闭曲线连续滑行一周后回到初始位置时法向量的方向没变, 则称 $\Sigma$ 为**双侧曲面**. 否则,称为**单侧曲面**, (即存在某点, 某闭曲线, 使得滑行一周回来后, 法向量和原来此点的法向量方向相反.)
+
+<img src= "images/1202-1.jpg" width=300>
+
+- def : 设 $\Sigma\subset \mathbb R^3$ 是分片光滑可求面积的双侧曲面, 若它有边界, 则它的边界是由有限条光滑曲面组成. 给定 $\Sigma$ 一侧, $\Sigma$ 上每点 $(x,y,z)$ 处的该侧的单位法向量记为 $\bm n(x,y,z)$, 向量函数 $\bm F(x,y,z)$ 在 $\Sigma$ 上有定义. 任意分割任意取点法求和的极限存在唯一, 则记为 $\iint_\Sigma \bm F(x,y,z)\cdot \bm n\mathrm dS$, 为**II型曲面积分**.
+
+> $\bm F$ 和 $\bm n$ 夹角是锐角, 则 $\bm F\cdot \bm n$ 是正的, 反之是负的. 这里 $\mathrm dS$ 是恒正的.
+> 闭曲面上积分记为 $\oiint_\Sigma \bm F(x,y,z)\cdot \bm n\mathrm dS$
+
+> 如果把 $\boldsymbol n\mathrm dS$ 看作向量, 记为 $\mathrm d\boldsymbol S$, 则 $\mathrm d\boldsymbol S = (\cos\alpha\mathrm dS,\cos\beta\mathrm dS,\cos\gamma\mathrm dS)$
+> 已知 $|\cos\alpha|\mathrm dS = \mathrm d\sigma_{yz}$, $|\cos\beta|\mathrm dS = \mathrm d\sigma_{xz}$, $|\cos\gamma|\mathrm dS = \mathrm d\sigma_{xy}$. 而这与 $\mathrm d\bm S$ 中的 $ \cos\alpha \mathrm dS$ 有别, 因此记 $\mathrm dy\mathrm dz = \cos\alpha\mathrm dS$, $\mathrm dz\mathrm dx = \cos\beta\mathrm dS$, $\mathrm dx\mathrm dy = \cos\gamma\mathrm dS$
+
+$$\begin{align*}\iint_\Sigma F(x,y,z)\boldsymbol n\mathrm dS &= \iint_\Sigma F(x,y,z)\mathrm d\bm S\\&\xlongequal{\text{与I型积分的联系}} \iint_\Sigma [P(x,y,z)\cos\alpha + Q(x,y,z)\cos\beta + R(x,y,z)\cos\gamma]\mathrm dS\\&\xlongequal{\text{新形式}} \iint_\Sigma P(x,y,z)\mathrm dy\mathrm dz+Q(x,y,z)\mathrm dz\mathrm dx+R(x,y,z)\mathrm dx\mathrm dy\end{align*}$$
+
+> wgx : 如果只是记忆公式, 而不理解这些都是二型曲面积分的形式, 则对思考问题没有多少帮助. 事实也的确如此, 微元是否取绝对值与计算中分类的数目有关.
+> 这里的 $\mathrm dx\mathrm dy$ 与二重积分中的有本质不同, 考试中混用可能导致老王下狠手, 后者建议用 $\sigma_{xy}$
+
+### 两类面积分之间的联系
 
 - theorem : (Gauss 公式), 有界闭 $\Omega\subset \mathbb R^3$, 其边界曲面 $(\partial \Omega)$ 分片光滑, $P,Q,R,\frac{\partial P}{\partial x},\frac{\partial Q}{\partial y},\frac{\partial R}{\partial z}\in C(Q)$, 则有
 $$\oiint_{\partial\Omega} P\mathrm dy\mathrm dz+Q\mathrm dz\mathrm dx+R\mathrm dx\mathrm dy =\iiint_{\Omega} \left(\frac{\partial P}{\partial x}+\frac{\partial Q}{\partial y}+\frac{\partial R}{\partial z}\right)\mathrm dv$$
@@ -277,12 +356,13 @@ $$\text{div}\vec{F} = \frac{\partial P}{\partial x}+\frac{\partial Q}{\partial y
 > Gauss 公式的向量形式
 > $$\oiint_{\Sigma^+} \vec{F}\cdot\vec{n}\mathrm dS = \iiint_{\Omega} \text{div}\vec {F}\mathrm dv$$
 - def : 如果区域 $\Omega\subset \mathbb R^3$ 内的任何简单闭曲面所围的体都完全属于 $\Omega$, 则称其为**单连通区域** (没有空腔) 
-- theorem : (散度定理) 对单连通区域 $\Omega$, 任意点的散度为 $0$ $\Leftrightarrow$ 任意闭曲面上通量为 $0$ $\Leftrightarrow$ II型曲面上通量只与边界有关与面位无关
+- theorem : (散度定理, 空间面积分与面位无关) 对单连通区域 $\Omega$, 任意点的散度为 $0$ $\Leftrightarrow$ 任意闭曲面上通量为 $0$ $\Leftrightarrow$ II型曲面上通量只与边界有关与面位无关
 > 为什么 stokes 公式是对的? 因为旋通量与面位无关, 换句话说旋度的散度为 $0$ : $\text{div}(\text{rot}\vec{F}) = 0$
 - def : 如果区域 $\Omega$ 内的任何闭曲线都可以张成(至少)一张完全属于 $\Omega$ 的曲面, 则称 $\Omega$ 为 **线单连通区域** (区域内任何简单闭曲线都可以连续收缩成一点)
 > 球壳线单连通, 但不单连通. 轮胎单连通, 但不线单连通
-- theorem : (空间线积分与路径无关定理) $\Omega$ 是线单连通区域, 两点间积分与路径无关 $\Leftrightarrow$ 存在可微函数 $u$ 的全微分是 $P\mathrm dx+Q\mathrm dy+R\mathrm dz$ $\Leftrightarrow$ 旋度处处为 $0$.
+- theorem : (空间线积分与路径无关) $\Omega$ 是线单连通区域, 两点间积分与路径无关 $\Leftrightarrow$ 存在可微函数 $u$ 的全微分是 $P\mathrm dx+Q\mathrm dy+R\mathrm dz$ $\Leftrightarrow$ 旋度处处为 $0$.
 > 路径流量与路径无关 $\Leftrightarrow$ 有势场 $\Leftrightarrow$ 无旋场
+
 
 ___
 
@@ -295,22 +375,30 @@ $\S$ 17.1
 - def : 所谓**含参变量定积分**, $x$ 是参变量
 $$ I(x) = \int_{c}^{d} f(x,y)\mathrm dy$$
 - lemma : 设 $f\in C(D)$, $F(x,y) = \int_{c}^{y} f(x,t)\mathrm dt$, $y\in [c,d]$, 则 $F(x,y)\in C(D)$ (二元连续函数对其中一个变量做变上限积分, 则结果是二元连续函数)
-- theorem : $f\in C(D)\Rightarrow I(x)\in C([a,b])$, 且此时对参数取极限与积分运算可交换
+- theorem : $f\in C(D)\Rightarrow I(x)\in C([a,b])$, 且此时**对参数取极限与积分运算可交换**
 $$\lim_{x\to x_0}\int_{c}^{d} f(x,y)\mathrm dy = \int_{c}^{d} \lim_{x\to x_0} f(x,y)\mathrm dy$$
 - theorem : 
 $$f\in C(D)\Rightarrow J(x) = \int_{\psi(x)}^{\varphi(x)} f(x,y)\mathrm dy\in C([a,b])$$
-- theorem : $f\in C(D), f_x'\in C(D) \Rightarrow I(x)\in C^1([a,b])$, 且此时对参数求导与积分运算可交换
+- theorem : $f\in C(D), f_x'\in C(D) \Rightarrow I(x)\in C^1([a,b])$, 且**此时对参数求导与积分运算可交换**
 $$\frac{\mathrm d}{\mathrm dx} \int_{c}^{d} f(x,t)\mathrm dt =  \int_{c}^{d} \frac{\partial f(x,t)}{\partial x}\mathrm dt$$
 - theorem :  $f\in C(D), f_x'\in C(D), \psi,\varphi$ 在$[a,b]$可微,$c\leq \psi,\varphi\leq d$ $\Rightarrow J(x)\in C^1([a,b])$, 且此时
 $$J'(x) = \int_{\psi(x)}^{\varphi(x)} f_x'(x,t)\mathrm dt - f(x,\psi(x))\psi'(x)+f(x,\varphi(x))\varphi'(x) $$
+
+|条件|含参变量积分|含参变量变限积分|
+|-|-|-|
+|$f(x,y)\in C(D)$|$I(x)\in C([a,b])$, 积分与 $\lim_{x\to x_0}$ 可交换, 两累次积分顺序可交换|$J(x)\in C([a,b])$|
+|$f\in C(D),f_x'\in C(D)$|$I(x)\in C^1([a,b])$, 积分与 $\frac{\mathrm d}{\mathrm dx}$ 可交换|$J(x)\in C^1([a,b])$, 求导结果另行计算|
 ## 含参变量的广义积分
 $\S$ 17.2
 ### 一致收敛
 $\S$ 17.2.1
 - def : 若 $\forall \epsilon>0, \exists A_0>c \text{ s.t. } \left|\int_{A}^{+\infty}f(x,y)\mathrm dy\right|<\epsilon,\forall x\in [a,b], \forall A>A_0$, 则称 $\int_{A}^{+\infty}f(x,y)\mathrm dy$ 关于 $x$ 在 $[a,b]$ 上**一致收敛**.
+> 我认为所谓的"一致"就是对于某个参数 $x$ 的取值范围共用一个 $\epsilon-N$
 > 将 $[a,b]$ 换成 $\mathbb R$ 的一般区间同样定义
 > Cauchy 一致收敛 : 一致收敛等价于在 $[A',A'']$ 上的积分 $<\epsilon$
 > Weiersrass 判别法 : 找一个控制函数夹住 $f$, 如果该函数一致收敛则 $f$ 一致收敛
+> Dirichlet 判别法 : $f$ 一致有界, $g$ 关于 $y$ 单调且 $g(x,y)\rightrightarrows0$, 则 $\int fg\mathrm dy$ 一致收敛
+> Abel 判别法 : $f$ 一致收敛, $g$ 单调有界, 则 $\int fg\mathrm dy$ 一致收敛
 - theorem : (Dirichlet 判别法) 若
   (1) $\exists M>0 \text{ s.t. } \left|\int_{c}^Af(x,y)\mathrm dy\right|\leq M, \forall A>c, \forall x\in E$, 即关于 $x$ 及 $A$ **一致有界**
   (2) $\forall x\in E$, $g(x,y)$ 关于 $y$ 单调, 且 $g(x,y)\rightrightarrows0 (y\rightarrow +\infty,x\in E)$
@@ -356,29 +444,4 @@ $\S$ 17.3
 
 ### $\Gamma$ 函数与 $\Beta$ 函数的关系
 - $\Beta(x,y)=\frac{\Gamma(x)\Gamma(y)}{\Gamma(x+y)}$
-- (余元公式) $\Gamma(x)\Gamma(1-x)=\Beta(x,1-x)=\frac{\pi}{\sin\pi x}$___
-# 速记
-___
-## 场论记号
-- 梯度场：$\nabla f = \text{grad} f = \left(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z}\right)$
-- 散度场：$\nabla\cdot \vec{F} = \text{div} \vec{F} = \frac{\partial P}{\partial x}+\frac{\partial Q}{\partial y}+\frac{\partial R}{\partial z}$
-- 旋度场：$\nabla\times \vec{F} = \text{rot} \vec{F} = \left(\frac{\partial R}{\partial y}-\frac{\partial Q}{\partial z}\right)\vec{i}+\left(\frac{\partial P}{\partial z}-\frac{\partial R}{\partial x}\right)\vec{j}+\left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)\vec{k} = \left|\begin{matrix}\vec{i} & \vec{j} & \vec{k}\\\frac{\partial}{\partial x}& \frac{\partial}{\partial y}&\frac{\partial}{\partial z}\\ P&Q&R\end{matrix}\right|$
-- 拉普拉斯算子：$\Delta f = \nabla\cdot \nabla f = \nabla^2 f = \frac{\partial^2 f}{\partial x^2}+\frac{\partial^2 f}{\partial y^2}+\frac{\partial^2 f}{\partial z^2}$
-
-## 反例
-**二重积分与累次积分的存在性问题**
-> (1) 二重积分存在并不保证累次积分存在, 例如:
-> $$D = [0,1]^2,f = \begin{cases}\frac{1}{k},\quad &x=\frac{1}{k},y\in \mathbb Q,k\in \mathbb N, \\0,&\text{o.w.}\end{cases}$$
-> 固定 $x$ 后是狄利克雷函数, 不可积, 但是二重积分存在. 
-> (2) 有累次积分存在, 可能二元积分不存在, 例如:
-> $$D=[-1,1]^2,f = \begin{cases}0,\quad &x\in \mathbb Q, \\y,&\text{o.w.}\end{cases}$$
-> (3) 累次积分存在且相等, 可能二元积分不存在, 例如:
-> $$D=[0,1]^2,f = \begin{cases}1,\quad &x,y\text{都是既约分数且分母相等}, \\0,&\text{o.w.}\end{cases}$$
-
-**广义重积分的敛散性**
-> 两累次积分均发散但二重积分收敛的例子:
-> $$D= (0,1)^2,f(x,y)=\begin{cases}2^n, \quad & x=\frac{2m-1}{2^n}<1,0<y\leq \frac{1}{2^n},n\in \mathbb N,\\0 &o.w.\end{cases}$$
-> $g(x,y)=f(x,y)+f(y,x)$
-> 
-> 在不加绝对值时, 存在累次积分收敛而二元广义积分发散的例子:
-> $$D= (0,1)^2,f(x,y)=\begin{cases}-\frac{1}{y^2}, \quad & 0<x<y<1,\\\frac{1}{x^2}, &0<y<x<1\\0 &x=y\end{cases}$$
+- (余元公式) $\Gamma(x)\Gamma(1-x)=\Beta(x,1-x)=\frac{\pi}{\sin\pi x}$
